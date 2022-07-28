@@ -78,7 +78,8 @@
               "browserTarget": "client:build:development",
               "sslKey": "./ssl/server.key",
               "sslCert": "./ssl/server.crt",
-              "ssl": true
+              "ssl": true,
+              "proxyConfig": "./proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
