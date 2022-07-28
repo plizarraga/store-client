@@ -13,6 +13,6 @@ export class ShopService {
   constructor(private http: HttpClient) { }
 
   getProducts() {
-    return this.http.get<IPagination>(`${this.api}/products?pageSize=3`);
+    return this.http.get<IPagination>(`${this.api}/products`);
   }
 }
