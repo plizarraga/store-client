@@ -2,18 +2,30 @@
   <div class="row">
     <section class="col-3">
       <h5 class="text-warning">Sort</h5>
-      <select class="form-select mb-3" aria-label="Sort products">
-        <option selected>Alphabetical</option>
-        <option>Price Low to High</option>
-        <option>Price High to Low</option>
+      <select class="form-select mb-3" aria-label="Sort products" (change)="onSortSelected($event.target.value)">
+        <option *ngFor="let sort of sortOptions" [value]="sort.value">{{sort.name}}</option>
       </select>
       <h5 class="text-warning">Brands</h5>
       <ul class="list-group my-3">
-        <li class="list-group-item" *ngFor="let productBrand of productBrands">{{productBrand.name}}</li>
+        <li
+          class="list-group-item"
+          [class.active]="productBrand.id === productBrandIdSelected"
+          *ngFor="let productBrand of productBrands"
+          [value]="productBrand.id" 
+          (click)="onProductBrandSelected(productBrand.id)">
+          {{productBrand.name}}
+        </li>
       </ul>
       <h5 class="text-warning">Types</h5>
       <ul class="list-group my-3">
-        <li class="list-group-item" *ngFor="let productType of productTypes">{{productType.name}}</li>
+        <li
+          class="list-group-item" 
+          [class.active]="productType.id === productTypeIdSelected"
+          *ngFor="let productType of productTypes" 
+          [value]="productType.id" 
+          (click)="onProductTypeSelected(productType.id)">
+          {{productType.name}}
+        </li>
       </ul>
     </section>
     <section class="col-9">
