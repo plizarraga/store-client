@@ -1,5 +1,5 @@
 import {
-  ChangeDetectorRef,
+  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
@@ -18,9 +18,13 @@ import { ShopService } from './shop.service';
 })
 export class ShopComponent implements OnInit {
   @ViewChild('search', { static: true }) searchTerm: ElementRef;
+  
   products: IProduct[] = [];
   productBrands: IProductBrand[] = [];
   productTypes: IProductType[] = [];
+
+  paramsOptions = new ShopParams();
+  totalOfProducts: number;
 
   sortOptions = [
     { name: 'Name: A-Z', value: 'nameAsc' },
@@ -29,11 +33,9 @@ export class ShopComponent implements OnInit {
     { name: 'Price: High to Low', value: 'priceDesc' },
   ];
 
-  totalOfProducts: number;
-
-  paramsOptions = new ShopParams();
-
-  constructor(private shopService: ShopService) {}
+  constructor(
+    private shopService: ShopService,
+  ) {}
 
   ngOnInit(): void {
     this.getProducts();
@@ -48,6 +50,7 @@ export class ShopComponent implements OnInit {
         this.paramsOptions.pageNumber = response.meta.pageIndex;
         this.paramsOptions.pageSize = response.meta.pageSize;
         this.totalOfProducts = response.meta.count;
+        // this.cd.detectChanges();
       },
       error: (error) => console.error(error),
     });
@@ -89,8 +92,6 @@ export class ShopComponent implements OnInit {
   }
 
   onPageChanged(event: any): void {
-    console.log({ event }, this.paramsOptions);
-
     if (this.paramsOptions.pageNumber !== event) {
       this.paramsOptions.pageNumber = event;
       this.getProducts();

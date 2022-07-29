@@ -40,8 +40,8 @@
       <div class="d-flex justify-content-between align-items-center pb-2">
         <app-pagin-header
           [totalCount]="totalOfProducts"
-          [pageNumber]="paramsOptions.pageNumber"
           [pageSize]="paramsOptions.pageSize"
+          [pageNumber]="paramsOptions.pageNumber"
         ></app-pagin-header>
         <div class="d-flex">
           <input (keyup.enter)="onSearch()" class="form-control" type="text" #search placeholder="Search..." />
@@ -56,8 +56,8 @@
       </div>
       <div class="d-flex justify-content-center" *ngIf="totalOfProducts > 0">
         <app-pager
-          [pageSize]="paramsOptions.pageSize"
           [totalCount]="totalOfProducts"
+          [pageSize]="paramsOptions.pageSize"
           [pageNumber]="paramsOptions.pageNumber"
           (pageChanged)="onPageChanged($event)"
         >
