@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { IProduct } from '../shared/models/product';
 import { IProductBrand } from '../shared/models/product-brand';
 import { IProductType } from '../shared/models/product-type';
@@ -67,11 +73,13 @@ export class ShopComponent implements OnInit {
 
   onProductBrandSelected(brandId: number): void {
     this.paramsOptions.productBrandId = brandId;
+    this.paramsOptions.pageNumber = 1;
     this.getProducts();
   }
 
   onProductTypeSelected(typeId: number): void {
     this.paramsOptions.productTypeId = typeId;
+    this.paramsOptions.pageNumber = 1;
     this.getProducts();
   }
 
@@ -81,16 +89,17 @@ export class ShopComponent implements OnInit {
   }
 
   onPageChanged(event: any): void {
-    console.log({event}, this.paramsOptions);
-    
+    console.log({ event }, this.paramsOptions);
+
     if (this.paramsOptions.pageNumber !== event) {
-      this.paramsOptions.pageNumber = event - 1;
+      this.paramsOptions.pageNumber = event;
       this.getProducts();
     }
   }
 
   onSearch(): void {
     this.paramsOptions.search = this.searchTerm.nativeElement.value;
+    this.paramsOptions.pageNumber = 1;
     this.getProducts();
   }
 
