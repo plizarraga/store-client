@@ -44,9 +44,19 @@
           [pageNumber]="shopParams.pageNumber"
         ></app-pagin-header>
         <div class="d-flex">
-          <input (keyup.enter)="onSearch()" class="form-control" type="text" #search placeholder="Search..." />
-          <button (click)=onSearch() class="btn btn-outline-primary mx-2">Search</button>
-          <button (click)="onResent()" class="btn btn-outline-success">Reset</button>
+          <input
+            (keyup.enter)="onSearch()"
+            class="form-control"
+            type="text"
+            #search
+            placeholder="Search..."
+          />
+          <button (click)="onSearch()" class="btn btn-outline-primary mx-2">
+            Search
+          </button>
+          <button (click)="onResent()" class="btn btn-outline-success">
+            Reset
+          </button>
         </div>
       </div>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-3">

@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IProduct } from '../shared/models/product';
 import { IProductBrand } from '../shared/models/product-brand';
 import { IProductType } from '../shared/models/product-type';
@@ -17,9 +10,9 @@ import { ShopService } from './shop.service';
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss'],
 })
-export class ShopComponent implements OnInit, AfterViewInit {
+export class ShopComponent implements OnInit {
   @ViewChild('search', { static: true }) searchTerm: ElementRef;
-  
+
   products: IProduct[] = [];
   productBrands: IProductBrand[] = [];
   productTypes: IProductType[] = [];
@@ -34,15 +27,8 @@ export class ShopComponent implements OnInit, AfterViewInit {
     { name: 'Price: High to Low', value: 'priceDesc' },
   ];
 
-  constructor(
-    private shopService: ShopService,
-    private cd: ChangeDetectorRef,
-  ) {
+  constructor(private shopService: ShopService) {
     this.shopParams = this.shopService.getShopParams();
-  }
-
-  ngAfterViewInit(): void {
-    console.log('ngAfterViewInit');
   }
 
   ngOnInit(): void {
@@ -56,9 +42,6 @@ export class ShopComponent implements OnInit, AfterViewInit {
       next: (response) => {
         this.products = response.data;
         this.totalOfProducts = response.meta.count;
-      },
-      complete: () =>{
-        this.cd.detectChanges()
       },
       error: (error) => console.error(error),
     });
@@ -82,11 +65,19 @@ export class ShopComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onSortSelected(sort: string): void {
+    const params = this.shopService.getShopParams();
+    params.sort = sort;
+    this.shopService.setShopParams(params);
+    this.getProducts();
+  }
+
   onProductBrandSelected(brandId: number): void {
     const params = this.shopService.getShopParams();
     params.productBrandId = brandId;
     params.pageNumber = 1;
     this.shopService.setShopParams(params);
+    // this.shopParams = this.shopService.getShopParams();
     this.getProducts();
   }
 
@@ -95,13 +86,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
     params.productTypeId = typeId;
     params.pageNumber = 1;
     this.shopService.setShopParams(params);
-    this.getProducts();
-  }
-
-  onSortSelected(sort: string): void {
-    const params = this.shopService.getShopParams();
-    params.sort = sort;
-    this.shopService.setShopParams(params);
+    // this.shopParams = this.shopService.getShopParams();
     this.getProducts();
   }
 

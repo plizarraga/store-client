@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PaginHeaderComponent } from './components/pagin-header/pagin-header.component';
 import { PagerComponent } from './components/pager/pager.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { PagerComponent } from './components/pager/pager.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     PaginationModule.forRoot()
   ],
   exports: [
