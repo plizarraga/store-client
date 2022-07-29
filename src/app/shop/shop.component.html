@@ -2,49 +2,66 @@
   <div class="row">
     <section class="col-3">
       <h5 class="text-warning">Sort</h5>
-      <select class="form-select mb-3" aria-label="Sort products" (change)="onSortSelected($event.target.value)">
-        <option *ngFor="let sort of sortOptions" [value]="sort.value">{{sort.name}}</option>
+      <select
+        class="form-select mb-3"
+        aria-label="Sort products"
+        (change)="onSortSelected($event.target.value)"
+      >
+        <option *ngFor="let sort of sortOptions" [value]="sort.value">
+          {{ sort.name }}
+        </option>
       </select>
       <h5 class="text-warning">Brands</h5>
       <ul class="list-group my-3">
         <li
           class="list-group-item"
-          [class.active]="productBrand.id === productBrandIdSelected"
+          [class.active]="productBrand.id === paramsOptions.productBrandId"
           *ngFor="let productBrand of productBrands"
-          [value]="productBrand.id" 
-          (click)="onProductBrandSelected(productBrand.id)">
-          {{productBrand.name}}
+          [value]="productBrand.id"
+          (click)="onProductBrandSelected(productBrand.id)"
+        >
+          {{ productBrand.name }}
         </li>
       </ul>
       <h5 class="text-warning">Types</h5>
       <ul class="list-group my-3">
         <li
-          class="list-group-item" 
-          [class.active]="productType.id === productTypeIdSelected"
-          *ngFor="let productType of productTypes" 
-          [value]="productType.id" 
-          (click)="onProductTypeSelected(productType.id)">
-          {{productType.name}}
+          class="list-group-item"
+          [class.active]="productType.id === paramsOptions.productTypeId"
+          *ngFor="let productType of productTypes"
+          [value]="productType.id"
+          (click)="onProductTypeSelected(productType.id)"
+        >
+          {{ productType.name }}
         </li>
       </ul>
     </section>
     <section class="col-9">
       <div class="d-flex justify-content-between align-items-center pb-2">
-        <header>
-          <span
-            >Showing <strong>20</strong> of <strong>50</strong> results</span
-          >
-        </header>
+        <app-pagin-header
+          [totalCount]="totalOfProducts"
+          [pageNumber]="paramsOptions.pageNumber"
+          [pageSize]="paramsOptions.pageSize"
+        ></app-pagin-header>
         <div class="d-flex">
-          <input class="form-control" type="text" placeholder="Search..." />
-          <button class="btn btn-outline-primary mx-2">Search</button>
-          <button class="btn btn-outline-success">Reset</button>
+          <input (keyup.enter)="onSearch()" class="form-control" type="text" #search placeholder="Search..." />
+          <button (click)=onSearch() class="btn btn-outline-primary mx-2">Search</button>
+          <button (click)="onResent()" class="btn btn-outline-success">Reset</button>
         </div>
       </div>
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-3">
         <div class="col" *ngFor="let product of products">
           <app-product-item [product]="product"></app-product-item>
         </div>
+      </div>
+      <div class="d-flex justify-content-center" *ngIf="totalOfProducts > 0">
+        <app-pager
+          [pageSize]="paramsOptions.pageSize"
+          [totalCount]="totalOfProducts"
+          [pageNumber]="paramsOptions.pageNumber"
+          (pageChanged)="onPageChanged($event)"
+        >
+        </app-pager>
       </div>
     </section>
   </div>

@@ -1,5 +1,5 @@
-import { IProductBrand } from "./productBrand";
-import { IProductType } from "./productType";
+import { IProductBrand } from "./product-brand";
+import { IProductType } from "./product-type";
 
 export interface IProduct {
   id: number;
