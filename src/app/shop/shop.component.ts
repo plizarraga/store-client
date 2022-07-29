@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -16,7 +17,7 @@ import { ShopService } from './shop.service';
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss'],
 })
-export class ShopComponent implements OnInit {
+export class ShopComponent implements OnInit, AfterViewInit {
   @ViewChild('search', { static: true }) searchTerm: ElementRef;
   
   products: IProduct[] = [];
@@ -35,7 +36,12 @@ export class ShopComponent implements OnInit {
 
   constructor(
     private shopService: ShopService,
+    private cd: ChangeDetectorRef,
   ) {}
+
+  ngAfterViewInit(): void {
+    console.log('after view init');
+  }
 
   ngOnInit(): void {
     this.getProducts();
@@ -50,7 +56,7 @@ export class ShopComponent implements OnInit {
         this.paramsOptions.pageNumber = response.meta.pageIndex;
         this.paramsOptions.pageSize = response.meta.pageSize;
         this.totalOfProducts = response.meta.count;
-        // this.cd.detectChanges();
+        this.cd.detectChanges();
       },
       error: (error) => console.error(error),
     });
