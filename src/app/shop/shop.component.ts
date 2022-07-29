@@ -77,7 +77,6 @@ export class ShopComponent implements OnInit {
     params.productBrandId = brandId;
     params.pageNumber = 1;
     this.shopService.setShopParams(params);
-    // this.shopParams = this.shopService.getShopParams();
     this.getProducts();
   }
 
@@ -86,7 +85,6 @@ export class ShopComponent implements OnInit {
     params.productTypeId = typeId;
     params.pageNumber = 1;
     this.shopService.setShopParams(params);
-    // this.shopParams = this.shopService.getShopParams();
     this.getProducts();
   }
 
