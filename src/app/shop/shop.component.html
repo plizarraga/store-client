@@ -15,7 +15,7 @@
       <ul class="list-group my-3">
         <li
           class="list-group-item"
-          [class.active]="productBrand.id === paramsOptions.productBrandId"
+          [class.active]="productBrand.id === shopParams.productBrandId"
           *ngFor="let productBrand of productBrands"
           [value]="productBrand.id"
           (click)="onProductBrandSelected(productBrand.id)"
@@ -27,7 +27,7 @@
       <ul class="list-group my-3">
         <li
           class="list-group-item"
-          [class.active]="productType.id === paramsOptions.productTypeId"
+          [class.active]="productType.id === shopParams.productTypeId"
           *ngFor="let productType of productTypes"
           [value]="productType.id"
           (click)="onProductTypeSelected(productType.id)"
@@ -40,8 +40,8 @@
       <div class="d-flex justify-content-between align-items-center pb-2">
         <app-pagin-header
           [totalCount]="totalOfProducts"
-          [pageSize]="paramsOptions.pageSize"
-          [pageNumber]="paramsOptions.pageNumber"
+          [pageSize]="shopParams.pageSize"
+          [pageNumber]="shopParams.pageNumber"
         ></app-pagin-header>
         <div class="d-flex">
           <input (keyup.enter)="onSearch()" class="form-control" type="text" #search placeholder="Search..." />
@@ -57,8 +57,8 @@
       <div class="d-flex justify-content-center" *ngIf="totalOfProducts > 0">
         <app-pager
           [totalCount]="totalOfProducts"
-          [pageSize]="paramsOptions.pageSize"
-          [pageNumber]="paramsOptions.pageNumber"
+          [pageSize]="shopParams.pageSize"
+          [pageNumber]="shopParams.pageNumber"
           (pageChanged)="onPageChanged($event)"
         >
         </app-pager>
