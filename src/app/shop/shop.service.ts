@@ -52,9 +52,7 @@ export class ShopService {
   }
 
   getProductById(productId: string) {
-    return this.http
-      .get<IProduct>(`${this.api}/products/${productId}`)
-      .pipe(catchError((error) => throwError(() => error)));
+    return this.http.get<IProduct>(`${this.api}/products/${productId}`);
   }
 
   getProductBrands() {
