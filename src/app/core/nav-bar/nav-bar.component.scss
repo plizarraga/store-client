@@ -1,15 +1,27 @@
 .header__logo {
     max-height: 70px;
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .nav__link {
     text-decoration: none;
     font-size: larger;
+    text-decoration: none;
+    color: #343a40;
+
+    &.nav__link:hover {
+        text-decoration: underline;
+    }
+
+    &.active {
+        color: orange
+    }
 }
 
-.nav__link:hover {
-    text-decoration: underline;
-}
 
 .cart-no {
     position: absolute;

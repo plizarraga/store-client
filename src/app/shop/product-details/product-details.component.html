@@ -1,1 +1,25 @@
-<p>product-details works!</p>
+<div class="row" *ngIf="product$ | async as product; else loadingOrError">
+  <div class="col-6">
+    <img [src]="product.pictureUrl" [alt]="product.name" class="img-fluid w-100">
+  </div>
+  <div class="col-6">
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.price }}</p>
+    <div class="d-flex justify-content-start align-items-center">
+        <i class="fa fa-minus-circle text-warning add-item"></i>
+        <span class="mx-2 item-count">2</span>
+        <i class="fa fa-plus-circle text-warning remove-item"></i>
+        <button class="btn btn-outline-secondary btn-lg ms-4">Add to Cart</button>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12 ms-3">
+        <h4>Description</h4>
+        <p>{{product.description}}</p>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingOrError>
+  <h1>Error al cargar el producto, intentar de nuevo</h1>
+</ng-template>
