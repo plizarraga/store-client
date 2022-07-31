@@ -1,4 +1,4 @@
-<div class="row" *ngIf="product$ | async as product; else loadingOrError">
+<div class="row" *ngIf="product$ | async as product;">
   <div class="col-6">
     <img [src]="product.pictureUrl" [alt]="product.name" class="img-fluid w-100">
   </div>
@@ -20,6 +20,6 @@
   </div>
 </div>
 
-<ng-template #loadingOrError>
+<!-- <ng-template #loadingOrError>
   <h1>Error al cargar el producto, intentar de nuevo</h1>
-</ng-template>
+</ng-template> -->
