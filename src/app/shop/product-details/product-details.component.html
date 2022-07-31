@@ -1,25 +1,33 @@
-<div class="row" *ngIf="product$ | async as product;">
-  <div class="col-6">
-    <img [src]="product.pictureUrl" [alt]="product.name" class="img-fluid w-100">
-  </div>
-  <div class="col-6">
-    <h3>{{ product.name }}</h3>
-    <p>{{ product.price }}</p>
-    <div class="d-flex justify-content-start align-items-center">
+<div class="container mt5">
+  <div class="row" *ngIf="product$ | async as product">
+    <div class="col-6">
+      <img
+        [src]="product.pictureUrl"
+        [alt]="product.name"
+        class="img-fluid w-100"
+      />
+    </div>
+    <div class="col-6">
+      <h3>{{ product.name }}</h3>
+      <p style="font-size: 2em;">{{ product.price }}</p>
+      <div class="d-flex justify-content-start align-items-center">
         <i class="fa fa-minus-circle text-warning add-item"></i>
         <span class="mx-2 item-count">2</span>
         <i class="fa fa-plus-circle text-warning remove-item"></i>
-        <button class="btn btn-outline-secondary btn-lg ms-4">Add to Cart</button>
+        <button class="btn btn-outline-secondary btn-lg ms-4">
+          Add to Cart
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="row mt-5">
-    <div class="col-12 ms-3">
+    <div class="row mt-5">
+      <div class="col-12 ms-3">
         <h4>Description</h4>
-        <p>{{product.description}}</p>
+        <p>{{ product.description }}</p>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- <ng-template #loadingOrError>
-  <h1>Error al cargar el producto, intentar de nuevo</h1>
-</ng-template> -->
+  <!-- <ng-template #loadingOrError>
+    <h1>Error al cargar el producto, intentar de nuevo</h1>
+  </ng-template> -->
+</div>
