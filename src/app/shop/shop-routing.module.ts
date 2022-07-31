@@ -7,14 +7,15 @@ import { ShopComponent } from './shop.component';
 
 const routes: Routes = [
   { path: '', component: ShopComponent },
-  { path: ':id', component: ProductDetailsComponent, data: { breadcrumb: 'Product Details' } },
+  {
+    path: ':id',
+    component: ProductDetailsComponent,
+    data: { breadcrumb: { alias: 'productDetails' } },
+  },
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes)
-  ],
-  exports: [RouterModule]
+  imports: [CommonModule, RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class ShopRoutingModule { }
+export class ShopRoutingModule {}
