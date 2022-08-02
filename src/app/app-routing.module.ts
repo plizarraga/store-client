@@ -12,6 +12,11 @@ const routes: Routes = [
     data: { breadcrumb: 'Shop' },
   },
   {
+    path: 'basket',
+    loadChildren: () => import('./basket/basket.module').then((m) => m.BasketModule),
+    data: { breadcrumb: 'Basket' },
+  },
+  {
     path: 'not-found',
     component: NotFoundComponent,
     data: { breadcrumb: 'Not Found' },
