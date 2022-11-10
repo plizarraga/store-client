@@ -1,5 +1,5 @@
 <div class="container mt5">
-  <div class="row" *ngIf="product$ | async as product">
+  <div class="row" *ngIf="product">
     <div class="col-6">
       <img
         [src]="product.pictureUrl"
@@ -11,10 +11,10 @@
       <h3>{{ product.name }}</h3>
       <p style="font-size: 2em;">{{ product.price }}</p>
       <div class="d-flex justify-content-start align-items-center">
-        <i class="fa fa-minus-circle text-warning add-item"></i>
-        <span class="mx-2 item-count">2</span>
-        <i class="fa fa-plus-circle text-warning remove-item"></i>
-        <button class="btn btn-outline-secondary btn-lg ms-4">
+        <i (click)="decrementItemQuantity()" class="fa fa-minus-circle text-warning add-item"></i>
+        <span class="mx-2 item-count">{{quantity}}</span>
+        <i (click)="incrementItemQuantity()" class="fa fa-plus-circle text-warning remove-item"></i>
+        <button (click)="addItemToBasket()" class="btn btn-outline-primary btn-lg ms-4">
           Add to Cart
         </button>
       </div>

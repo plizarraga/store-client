@@ -18,14 +18,14 @@ export class BasketComponent implements OnInit {
   ngOnInit(): void {}
 
   incrementItemQuantity(item: IBasketItem) {
-    console.log({ item });
+    this.basketService.incrementItemQuantity(item);
   }
 
   decrementItemQuantity(item: IBasketItem) {
-    console.log({ item });
+    this.basketService.decrementItemQuantity(item);
   }
 
   removeBasketItem(item: IBasketItem) {
-    console.log({ item });
+    this.basketService.removeItemFromBasket(item);
   }
 }
