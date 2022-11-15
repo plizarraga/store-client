@@ -13,13 +13,21 @@ const routes: Routes = [
   },
   {
     path: 'basket',
-    loadChildren: () => import('./basket/basket.module').then((m) => m.BasketModule),
+    loadChildren: () =>
+      import('./basket/basket.module').then((m) => m.BasketModule),
     data: { breadcrumb: 'Basket' },
   },
   {
     path: 'checkout',
-    loadChildren: () => import('./checkout/checkout.module').then((m) => m.CheckoutModuleModule),
+    loadChildren: () =>
+      import('./checkout/checkout.module').then((m) => m.CheckoutModuleModule),
     data: { breadcrumb: 'Checkout' },
+  },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./account/account.module').then((m) => m.AccountModule),
+    data: { breadcrumb: { skip: true } },
   },
   {
     path: 'not-found',
