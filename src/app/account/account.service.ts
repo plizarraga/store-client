@@ -31,14 +31,14 @@ export class AccountService {
       .get<IUser>(`${this.api}/users/current-user`, httpOptions)
       .pipe(
         tap((user) => {
-          this.acccountSource.next(user);
           localStorage.setItem('token', user.token);
+          this.acccountSource.next(user);
         })
       );
   }
 
   login(body: any) {
-    return this.http.post(`${this.api}/sessions/`, body).pipe(
+    return this.http.post(`${this.api}/sessions/`, { user: body }).pipe(
       tap((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
@@ -49,10 +49,11 @@ export class AccountService {
   }
 
   register(body: any) {
-    return this.http.post(`${this.api}/users/`, body).pipe(
+    return this.http.post(`${this.api}/users/`, { user: body }).pipe(
       tap((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
+          this.acccountSource.next(user);
         }
       })
     );
