@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
@@ -15,6 +15,27 @@ export class AccountService {
   public account$ = this.acccountSource.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  getCurrentUserValue(): IUser {
+    return this.acccountSource.value;
+  }
+
+  loadCurrentUser(token: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${token}`,
+      }),
+    };
+
+    return this.http
+      .get<IUser>(`${this.api}/users/current-user`, httpOptions)
+      .pipe(
+        tap((user) => {
+          this.acccountSource.next(user);
+          localStorage.setItem('token', user.token);
+        })
+      );
+  }
 
   login(body: any) {
     return this.http.post(`${this.api}/sessions/`, body).pipe(
