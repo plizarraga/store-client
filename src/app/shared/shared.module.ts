@@ -9,9 +9,15 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PaginHeaderComponent } from './components/pagin-header/pagin-header.component';
 import { PagerComponent } from './components/pager/pager.component';
 import { OrderTotalsComponent } from './components/order-totals/order-totals.component';
+import { TextInputComponent } from './components/text-input/text-input.component';
 
 @NgModule({
-  declarations: [PaginHeaderComponent, PagerComponent, OrderTotalsComponent],
+  declarations: [
+    PaginHeaderComponent,
+    PagerComponent,
+    OrderTotalsComponent,
+    TextInputComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,6 +34,7 @@ import { OrderTotalsComponent } from './components/order-totals/order-totals.com
     PaginHeaderComponent,
     PagerComponent,
     OrderTotalsComponent,
+    TextInputComponent,
   ],
 })
 export class SharedModule {}
