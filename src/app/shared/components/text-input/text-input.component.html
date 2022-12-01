@@ -22,9 +22,16 @@
     <span *ngIf="controlDir.control.errors?.required"
       >{{ label }} is required</span
     >
+    <span *ngIf="controlDir.control.errors?.minlength">
+      {{ label }} must be at least
+      {{ controlDir.control.errors.minlength.requiredLength }} characters</span
+    >
     <span *ngIf="controlDir.control.errors?.pattern"
       >Invalid email address</span
     >
+    <span *ngIf="controlDir.control.errors?.matching"
+      >{{ label }} does not match
+    </span>
   </div>
 
   <div

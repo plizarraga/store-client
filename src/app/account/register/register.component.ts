@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  Validators,
+  FormBuilder,
+  AbstractControlOptions,
+} from '@angular/forms';
 import { Router } from '@angular/router';
+import MatchingValidator from 'src/app/shared/helpers/matching.validator';
 import { AccountService } from '../account.service';
 
 @Component({
@@ -10,23 +16,33 @@ import { AccountService } from '../account.service';
 })
 export class RegisterComponent implements OnInit {
   public registerForm: FormGroup;
+  public form: FormGroup;
+  public errorsMessages: string[] = [];
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private accountService: AccountService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.createRegisterForm();
   }
 
   createRegisterForm() {
-    this.registerForm = new FormGroup({
-      name: new FormControl(null, Validators.required),
-      email: new FormControl(null, [
-        Validators.required,
-        Validators.email,
-      ]),
-      password: new FormControl(null, Validators.required),
-      // passwordConfirmation: new FormControl(null, Validators.required),
-    });
+    this.registerForm = this.fb.group(
+      {
+        name: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        passwordConfirmation: ['', Validators.required],
+      },
+      {
+        validators: [
+          MatchingValidator.match('password', 'passwordConfirmation'),
+        ],
+      } as AbstractControlOptions
+    );
   }
 
   onSubmit() {
@@ -34,7 +50,10 @@ export class RegisterComponent implements OnInit {
       next: () => {
         this.router.navigateByUrl('/shop');
       },
-      error: (e) => console.log(e),
+      error: (e) => {
+        this.errorsMessages = e.errors;
+        console.error(e);
+      },
     });
   }
 }

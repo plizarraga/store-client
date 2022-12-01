@@ -14,11 +14,16 @@
         [label]="'Password'"
         [type]="'password'"
       ></app-text-input>
-      <!-- <app-text-input
+      <app-text-input
         formControlName="passwordConfirmation"
         [label]="'Password Confirmation'"
         [type]="'password'"
-      ></app-text-input> -->
+      ></app-text-input>
+      <ul class="text-danger list-unstyled" *ngIf="errorsMessages">
+        <li *ngFor="let errorMessage of errorsMessages">
+          {{ errorMessage }}
+        </li>
+      </ul>
       <div class="d-grid mt-3">
         <button
           [disabled]="registerForm.invalid"

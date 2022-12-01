@@ -20,9 +20,9 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error) => {
         if (error) {
-          if (error.status === 400) {
+          if (error.status === 400 || error.status === 422) {
             if (error.error.errors) {
-              return throwError(() => new Error(error.error));
+              return throwError(() => error.error);
             } else {
               this.toastr.error(error.error.message, error.status);
             }
@@ -30,18 +30,16 @@ export class ErrorInterceptor implements HttpInterceptor {
           if (error.status === 401) {
             this.toastr.error(error.error.message, error.status);
           }
-          // if (error.status === 422) {
-          //   this.toastr.error(error.error.message, error.status);
-          // }
           if (error.status === 404) {
             this.router.navigateByUrl('/not-found');
           }
           if (error.status === 500) {
-            const navigationExtras: NavigationExtras = {state: {error: error.error}}
+            const navigationExtras: NavigationExtras = {
+              state: { error: error.error },
+            };
             this.router.navigateByUrl('/server-error', navigationExtras);
           }
-
-          return throwError(() => new Error(error));
+          return throwError(() => error);
         }
       })
     );
