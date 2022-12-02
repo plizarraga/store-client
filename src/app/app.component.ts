@@ -21,12 +21,10 @@ export class AppComponent implements OnInit {
 
   loadUser() {
     const token = localStorage.getItem('token');
-    if (token) {
-      this.accountService.loadCurrentUser(token).subscribe({
-        next: () => this.router.navigateByUrl('/shop'),
-        error: (error) => console.error(error),
-      });
-    }
+    this.accountService.loadCurrentUser(token).subscribe({
+      next: () => console.log('loaded user'),
+      error: (error) => console.error(error),
+    });
   }
 
   loadBasket() {
