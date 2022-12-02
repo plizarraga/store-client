@@ -10,8 +10,7 @@ import { BasketService } from './basket/basket.service';
 export class AppComponent implements OnInit {
   constructor(
     private basketService: BasketService,
-    private accountService: AccountService,
-    private router: Router
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
