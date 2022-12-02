@@ -6,6 +6,7 @@ import {
   AbstractControlOptions,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { EmailExistsValidator } from 'src/app/shared/helpers/email-exists.validator';
 import MatchingValidator from 'src/app/shared/helpers/matching.validator';
 import { AccountService } from '../account.service';
 
@@ -32,8 +33,12 @@ export class RegisterComponent implements OnInit {
   createRegisterForm() {
     this.registerForm = this.fb.group(
       {
-        name: ['', [Validators.required]],
-        email: ['', [Validators.required, Validators.email]],
+        name: [null, [Validators.required]],
+        email: [
+          null,
+          [Validators.required, Validators.email],
+          [EmailExistsValidator.validate(this.accountService)],
+        ],
         password: ['', [Validators.required, Validators.minLength(6)]],
         passwordConfirmation: ['', Validators.required],
       },
