@@ -11,21 +11,24 @@ import { AccountService } from 'src/app/account/account.service';
 export class CheckoutAddressComponent implements OnInit {
   @Input() checkoutForm: FormGroup;
 
-  constructor(private accountService: AccountService, private toastr: ToastrService) { }
+  constructor(
+    private accountService: AccountService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {}
-  
+
   saveUserAddress() {
-    // this.accountService
-    //   .updateUserAddress(this.checkoutForm.get('addressForm').value)
-    //   .subscribe(
-    //     () => {
-    //       this.toastr.success('Address saved');
-    //     },
-    //     (error) => {
-    //       this.toastr.error(error.message);
-    //       console.log(error);
-    //     }
-    //   );
+    this.accountService
+      .updateUserAddress(this.checkoutForm.get('addressForm').value)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Address updated');
+        },
+        error: (error) => {
+          this.toastr.error(error);
+          console.log(error);
+        },
+      });
   }
 }

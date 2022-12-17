@@ -76,6 +76,6 @@ export class AccountService {
   }
 
   updateUserAddress(address: IAddress) {
-    return this.http.put<IAddress>(this.api + '/addresses', address);
+    return this.http.put<IAddress>(this.api + '/addresses', { address });
   }
 }
