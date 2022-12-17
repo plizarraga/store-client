@@ -28,6 +28,6 @@ export class CheckoutDeliveryComponent implements OnInit {
   }
 
   setShippingPrice(deliveryMethod: IDeliveryMethod) {
-    // this.basketService.setShippingPrice(deliveryMethod);
+    this.basketService.setShippingPrice(deliveryMethod);
   }
 }
