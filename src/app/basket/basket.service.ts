@@ -7,8 +7,8 @@ import {
   IBasket,
   IBasketItem,
   IBasketTotals,
-} from '../shared/models/basket';
-import { IProduct } from '../shared/models/product';
+} from '../shared/models/basket.model';
+import { IProduct } from '../shared/models/product.model';
 
 @Injectable({
   providedIn: 'root',
