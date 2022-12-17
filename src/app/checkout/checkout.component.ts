@@ -17,7 +17,7 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.createCheckoutForm();
-    this.getAddressFormValues();
+    this.getUserAddress();
   }
 
   createCheckoutForm() {
@@ -39,7 +39,7 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  getAddressFormValues() {
+  getUserAddress() {
     this.accountService.getUserAddress().subscribe({
       next: (address) => {
         if (address) {

@@ -95,12 +95,16 @@ export class BasketService {
     }
   }
 
+  deleteLocalBasket() {
+    this.basketSource.next(null);
+    this.basketTotalsSource.next(null);
+    localStorage.removeItem('basket_id');
+  }
+
   deleteBasket(basket: IBasket) {
     return this.http.delete(`${this.api}/baskets/${basket.id}`).subscribe({
       next: () => {
-        this.basketSource.next(null);
-        this.basketTotalsSource.next(null);
-        localStorage.removeItem('basket_id');
+        this.deleteLocalBasket();
       },
       error: (error) => console.error(error),
     });
