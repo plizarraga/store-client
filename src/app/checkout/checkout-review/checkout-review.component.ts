@@ -16,4 +16,16 @@ export class CheckoutReviewComponent implements OnInit {
   ngOnInit(): void {
     this.basket$ = this.basketService.basket$;
   }
+
+  createPaymentIntetent(): void {
+    this.basketService.createPaymentIntent().subscribe({
+      next: (basket) => {
+        console.log('Payment intent')
+        console.log(basket);
+      },
+      error: (error: any) => {
+        console.log(error.message);
+      },
+    });
+  }
 }
