@@ -1,23 +1,45 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { IPagination } from '../shared/models/pagination.model';
+import { IPagination, Pagination } from '../shared/models/pagination.model';
 import { IProduct } from '../shared/models/product.model';
 import { IProductBrand } from '../shared/models/product-brand.model';
 import { IProductType } from '../shared/models/product-type.model';
 import { ShopParams } from '../shared/models/shop-params.model';
+import { of } from 'rxjs/internal/observable/of';
+import { map } from 'rxjs/internal/operators/map';
+import { tap } from 'rxjs/internal/operators/tap';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShopService {
   private api = environment.api;
-  shopParams = new ShopParams();
+
+  private shopParams = new ShopParams();
+  private pagination = new Pagination();
+  private productCache = new Map();
+
+  private products: IProduct[] = [];
+  private brands: IProductBrand[] = [];
+  private types: IProductType[] = [];
 
   constructor(private http: HttpClient) {}
 
-  getProducts() {
+  getProducts(useCache: boolean) {
+    if (useCache === false) {
+      this.productCache = new Map();
+    }
+
+    if (this.productCache.size > 0 && useCache === true) {
+      if (this.productCache.has(Object.values(this.shopParams).join('-'))) {
+        this.pagination.data = this.productCache.get(
+          Object.values(this.shopParams).join('-')
+        );
+        return of(this.pagination);
+      }
+    }
+
     let params = new HttpParams();
 
     if (this.shopParams.productBrandId !== 0) {
@@ -47,19 +69,51 @@ export class ShopService {
         observe: 'response',
         params: params,
       })
-      .pipe(map((response) => response.body));
+      .pipe(
+        map((response) => {
+          this.productCache.set(
+            Object.values(this.shopParams).join('-'),
+            response.body.data
+          );
+          this.pagination = response.body;
+          return this.pagination;
+        })
+      );
   }
 
-  getProductById(productId: string) {
+  getProductById(productId: number) {
+    let product: IProduct;
+    this.productCache.forEach((products: IProduct[]) => {
+      product = products.find((p) => p.id === productId);
+    });
+
+    if (product) {
+      return of(product);
+    }
+
     return this.http.get<IProduct>(`${this.api}/products/${productId}`);
   }
 
   getProductBrands() {
-    return this.http.get<IProductBrand[]>(`${this.api}/product_brands`);
+    if (this.brands.length > 0) {
+      return of(this.brands);
+    }
+    return this.http.get<IProductBrand[]>(`${this.api}/product_brands`).pipe(
+      tap((productBrands) => {
+        this.brands = productBrands;
+      })
+    );
   }
 
   getProductTypes() {
-    return this.http.get<IProductType[]>(`${this.api}/product_types`);
+    if (this.types.length > 0) {
+      return of(this.types);
+    }
+    return this.http.get<IProductType[]>(`${this.api}/product_types`).pipe(
+      tap((productTypes) => {
+        this.types = productTypes;
+      })
+    );
   }
 
   setShopParams(params: ShopParams) {

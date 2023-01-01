@@ -8,7 +8,7 @@
           aria-label="Sort products"
           (change)="onSortSelected($event.target.value)"
         >
-          <option *ngFor="let sort of sortOptions" [value]="sort.value">
+          <option *ngFor="let sort of sortOptions" [selected]="shopParams.sort === sort.value" [value]="sort.value">
             {{ sort.name }}
           </option>
         </select>
