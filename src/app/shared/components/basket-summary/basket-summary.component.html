@@ -2,7 +2,7 @@
   <div class="table-responsive">
     <table class="table table-borderless">
       <thead
-        [class.table-light]="isBasket || isOrder"
+        [class.bg-light]="isBasket || isOrder"
         class="border-0 py-2"
         style="padding: 1em"
       >
@@ -38,7 +38,7 @@
                 <h5 class="mb-0">
                   <a
                     routerLink="/shop/{{ item.id || item.productId }}"
-                    class="text-dark"
+                    class="text-dark text-decoration-none"
                     >{{ item.productName }}</a
                   >
                 </h5>
