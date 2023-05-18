@@ -21,14 +21,14 @@ export class OrderDetailedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.orderService
-      .getOrderDetailed(+this.route.snapshot.paramMap.get('id'))
-      .subscribe({
-        next: (order: IOrder) => {
+    const id = this.route.snapshot.paramMap.get('id');
+    id &&
+      this.orderService.getOrderDetailed(+id).subscribe({
+        next: (order) => {
           this.order = order;
           this.breadcrumbService.set(
             '@OrderDetailed',
-            `Order# ${this.order.id} - ${this.order.status}`
+            `Order# ${order.id} - ${order.status}`
           );
         },
         error: (error) => console.log(error),

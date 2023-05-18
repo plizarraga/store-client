@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { BasketService } from 'src/app/basket/basket.service';
 
 @Component({
   selector: 'app-order-totals',
@@ -6,7 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./order-totals.component.scss'],
 })
 export class OrderTotalsComponent {
-  @Input() shippingPrice: number;
-  @Input() subtotal: number;
-  @Input() total: number;
+  constructor(public basketService: BasketService) {}
 }

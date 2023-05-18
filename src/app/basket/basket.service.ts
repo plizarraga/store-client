@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
   Basket,
@@ -28,7 +28,7 @@ export class BasketService {
   constructor(private http: HttpClient) {}
 
   createPaymentIntent() {
-    const basketId = this.getCurrentBasketValue().id
+    const basketId = this.getCurrentBasketValue().id;
     return this.http.post<IBasket>(`${this.api}/payments/${basketId}`, {}).pipe(
       map((basket) => {
         this.basketSource.next(basket);
@@ -72,38 +72,22 @@ export class BasketService {
     return this.basketSource.value;
   }
 
-  addItemToBasket(item: IProduct, quantity = 1) {
-    const itemToAdd: IBasketItem = this.mapProductItemtoBasketItem(
-      item,
-      quantity
-    );
+  addItemToBasket(item: IProduct | IBasketItem, quantity = 1) {
+    if (this.isProduct(item)) item = this.mapProductItemToBasketItem(item);
     const basket = this.getCurrentBasketValue() ?? this.createBasket();
-    basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
+    basket.items = this.addOrUpdateItem(basket.items, item, quantity);
     this.setBasket(basket);
   }
 
-  incrementItemQuantity(item: IBasketItem): void {
+  removeItemFromBasket(id: number, quantity = 1) {
     const basket = this.getCurrentBasketValue();
-    const foundItemIndex = basket.items.findIndex((x) => x.id == item.id);
-    basket.items[foundItemIndex].quantity++;
-    this.setBasket(basket);
-  }
-
-  decrementItemQuantity(item: IBasketItem): void {
-    const basket = this.getCurrentBasketValue();
-    const foundItemIndex = basket.items.findIndex((x) => x.id == item.id);
-    if (basket.items[foundItemIndex].quantity > 1) {
-      basket.items[foundItemIndex].quantity--;
-      this.setBasket(basket);
-    } else {
-      this.removeItemFromBasket(item);
-    }
-  }
-
-  removeItemFromBasket(item: IBasketItem): void {
-    const basket = this.getCurrentBasketValue();
-    if (basket.items.some((x) => x.id === item.id)) {
-      basket.items = basket.items.filter((x) => x.id !== item.id);
+    if (!basket) return;
+    const item = basket.items.find((x) => x.id === id);
+    if (item) {
+      item.quantity -= quantity;
+      if (item.quantity === 0) {
+        basket.items = basket.items.filter((x) => x.id !== id);
+      }
       if (basket.items.length > 0) {
         this.setBasket(basket);
       } else {
@@ -160,22 +144,19 @@ export class BasketService {
     return basket;
   }
 
-  private mapProductItemtoBasketItem(
-    item: IProduct,
-    quantity: number
-  ): IBasketItem {
+  private mapProductItemToBasketItem(item: IProduct): IBasketItem {
     return {
       id: item.id,
       productName: item.name,
       price: item.price,
-      quantity,
+      quantity: 0,
       pictureUrl: item.pictureUrl,
       brand: item.productBrand.name,
       type: item.productType.name,
     };
   }
-}
-function tap(arg0: (basket: any) => void): import("rxjs").OperatorFunction<IBasket, unknown> {
-  throw new Error('Function not implemented.');
-}
 
+  private isProduct(item: IProduct | IBasketItem): item is IProduct {
+    return (item as IProduct).productBrand !== undefined;
+  }
+}
